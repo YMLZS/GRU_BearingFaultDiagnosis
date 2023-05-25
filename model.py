@@ -5,9 +5,10 @@ from einops.layers.torch import Rearrange
 
 # 定义GRU网络
 class GRU(nn.Module):
-    def __init__(self, input_dim, input_size, hidden_size, hidden_num_layers):
+    def __init__(self, input_dim, input_size, hidden_size, hidden_num_layers, sne=False):
         super(GRU, self).__init__()
 
+        self.sne = sne
         self.hidden_size = hidden_size
         self.num_layers = hidden_num_layers
 
@@ -31,6 +32,11 @@ class GRU(nn.Module):
         h_0 = x.data.new(self.num_layers, batch_size, self.hidden_size).fill_(0).float()
         x, h_0 = self.gru(x, h_0)
         x = rearrange(x, 'b s l -> b (s l)')
-        x = self.reg(x)
-        return x
+        if self.sne:
+            y = x
+            x = self.reg(x)
+            return x, y
+        else:
+            x = self.reg(x)
+            return x
 
