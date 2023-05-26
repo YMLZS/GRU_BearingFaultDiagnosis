@@ -59,7 +59,7 @@ def confusion_matrix(txt_path, jpg_path):
     # 加载混淆矩阵
     con_matrix = np.loadtxt(txt_path, delimiter=',')
     # 标签
-    classes = ['type0', 'type1', 'type2', 'type3', 'type4', 'type5', 'type6', 'type7', 'type8', 'type9']
+    classes = ['Norm', 'B07', 'B14', 'B21', 'IR07', 'IR14', 'IR21', 'OR07', 'OR14', 'OR21']
     # 标签的个数
     classNamber = 10  # 分类数量
     # 按行进行归一化到(0,1)之间
@@ -68,7 +68,7 @@ def confusion_matrix(txt_path, jpg_path):
     con_matrix = con_matrix.numpy()
 
     plt.imshow(con_matrix, interpolation='nearest', cmap=plt.cm.GnBu)  # 按照像素显示出矩阵,可设置像素背景颜色
-    plt.title('confusion_matrix')
+    plt.title('GRU')
     plt.colorbar()
     tick_marks = np.arange(len(classes))
     plt.xticks(tick_marks, classes, rotation=-45)
